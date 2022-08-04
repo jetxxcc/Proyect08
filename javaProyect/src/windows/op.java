@@ -67,20 +67,20 @@ public class op extends JFrame implements ActionListener{
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Usuario");
-		lblNewLabel_1.setBounds(232, 77, 46, 14);
+		lblNewLabel_1.setBounds(232, 70, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
-		lblNewLabel_2.setBounds(232, 133, 72, 14);
+		lblNewLabel_2.setBounds(232, 104, 72, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		txt1 = new JTextField();
-		txt1.setBounds(298, 74, 107, 20);
+		txt1.setBounds(298, 66, 107, 23);
 		contentPane.add(txt1);
 		txt1.setColumns(10);
 		
 		txt2 = new JTextField();
-		txt2.setBounds(298, 130, 107, 20);
+		txt2.setBounds(298, 100, 107, 23);
 		contentPane.add(txt2);
 		txt2.setColumns(10);
 		
@@ -97,11 +97,13 @@ public class op extends JFrame implements ActionListener{
 		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\login-arrow-symbol-entering-back-into-a-square_icon-icons.com_73221.png"));
 		
 		 btnLimpiar = new JButton("Limpiar");
-		btnLimpiar.setBounds(298, 169, 89, 23);
+		 btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
+		btnLimpiar.setBounds(298, 134, 107, 49);
 		contentPane.add(btnLimpiar);
 		
 		 btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(298, 208, 89, 23);
+		 btnAceptar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\flecha-alt-circulo-derecha.png"));
+		btnAceptar.setBounds(298, 201, 107, 49);
 		contentPane.add(btnAceptar);
 	}
 
