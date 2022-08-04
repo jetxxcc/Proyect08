@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Window.Type;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -17,12 +19,13 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class op extends JFrame {
+public class op extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTextField txt1;
 	private JTextField txt2;
-
+		
+	JButton btnLimpiar, btnAceptar;
 	/**
 	 * Launch the application.
 	 */
@@ -93,12 +96,21 @@ public class op extends JFrame {
 		contentPane.add(lblNewLabel_3);
 		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\login-arrow-symbol-entering-back-into-a-square_icon-icons.com_73221.png"));
 		
-		JButton btnLimpiar = new JButton("Limpiar");
+		 btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setBounds(298, 169, 89, 23);
 		contentPane.add(btnLimpiar);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		 btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(298, 208, 89, 23);
 		contentPane.add(btnAceptar);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btnLimpiar) {
+			
+		}else if(e.getSource()==btnAceptar) {
+			
+		}
 	}
 }
