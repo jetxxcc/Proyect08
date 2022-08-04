@@ -1,6 +1,6 @@
-package POO;
+package windows;
 
-public class opPOO {
+public abstract class opPOO {
 	 String user, contra;
 	
 	 opPOO(String user, String contra){
