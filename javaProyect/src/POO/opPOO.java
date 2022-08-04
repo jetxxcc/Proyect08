@@ -1,4 +1,4 @@
-package javaProyect;
+package POO;
 
 public class opPOO {
 	 String user, contra;
