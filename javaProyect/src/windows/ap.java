@@ -25,7 +25,7 @@ public class ap extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private JTextField textField;
+	private JTextField txtNom;
 
 	/**
 	 * Launch the application.
@@ -90,30 +90,30 @@ public class ap extends JFrame {
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Limpiar");
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
-		btnNewButton.setForeground(Color.BLACK);
-		btnNewButton.setBackground(Color.DARK_GRAY);
-		btnNewButton.setBounds(475, 11, 106, 49);
-		panel_1.add(btnNewButton);
+		JButton btnLimpiar = new JButton("Limpiar");
+		btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
+		btnLimpiar.setForeground(Color.BLACK);
+		btnLimpiar.setBackground(Color.DARK_GRAY);
+		btnLimpiar.setBounds(475, 11, 106, 49);
+		panel_1.add(btnLimpiar);
 		
-		JButton btnNewButton_1 = new JButton("Buscar");
-		btnNewButton_1.setBackground(Color.DARK_GRAY);
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\buscar-alt.png"));
-		btnNewButton_1.setBounds(475, 71, 106, 49);
-		panel_1.add(btnNewButton_1);
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(Color.DARK_GRAY);
+		btnBuscar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\buscar-alt.png"));
+		btnBuscar.setBounds(475, 71, 106, 49);
+		panel_1.add(btnBuscar);
 		
-		JButton btnNewButton_2 = new JButton("Eliminar");
-		btnNewButton_2.setBackground(Color.DARK_GRAY);
-		btnNewButton_2.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\eliminar-documento.png"));
-		btnNewButton_2.setBounds(475, 131, 106, 49);
-		panel_1.add(btnNewButton_2);
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBackground(Color.DARK_GRAY);
+		btnEliminar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\eliminar-documento.png"));
+		btnEliminar.setBounds(475, 131, 106, 49);
+		panel_1.add(btnEliminar);
 		
-		JButton btnNewButton_3 = new JButton("Editar");
-		btnNewButton_3.setBackground(Color.DARK_GRAY);
-		btnNewButton_3.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
-		btnNewButton_3.setBounds(475, 191, 106, 49);
-		panel_1.add(btnNewButton_3);
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setBackground(Color.DARK_GRAY);
+		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
+		btnEditar.setBounds(475, 191, 106, 49);
+		panel_1.add(btnEditar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 64, 455, 232);
@@ -136,16 +136,16 @@ public class ap extends JFrame {
 		lblNewLabel_1.setBounds(10, 35, 111, 14);
 		panel_1.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(115, 30, 150, 23);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		txtNom = new JTextField();
+		txtNom.setBounds(115, 30, 150, 23);
+		panel_1.add(txtNom);
+		txtNom.setColumns(10);
 		
-		JButton btnNewButton_4 = new JButton("Volver al login");
-		btnNewButton_4.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnNewButton_4.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\deshacer.png"));
-		btnNewButton_4.setBackground(Color.DARK_GRAY);
-		btnNewButton_4.setBounds(473, 247, 110, 49);
-		panel_1.add(btnNewButton_4);
+		JButton btnVolver = new JButton("Volver al login");
+		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnVolver.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\deshacer.png"));
+		btnVolver.setBackground(Color.DARK_GRAY);
+		btnVolver.setBounds(473, 247, 110, 49);
+		panel_1.add(btnVolver);
 	}
 }
