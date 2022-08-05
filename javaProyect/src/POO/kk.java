@@ -1,8 +1,10 @@
 package POO;
 
+import windows.op;
+
 public class kk {
 	public static void  main(String[] args) {
-		System.out.print("hola");
-		System.out.print("klk");
+		op a = new op();
+		a.setVisible(true);
 	}
 }
