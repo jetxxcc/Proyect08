@@ -19,17 +19,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 
-public class ap extends JFrame {
+public class ap extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JTable table;
+	private static JTable table;
 	private JTextField txtNom;
-
+	JButton btnBuscar, btnVolver, btnLimpiar, btnEliminar, btnEditar;
 	/**
 	 * Launch the application.
 	 */
+	 static void AddRow(Object[] dataRow) {
+			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			model.addRow(dataRow);
+		}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,7 +58,7 @@ public class ap extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt.png"));
 		setTitle("Registro de Empleados");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 619, 461);
+		setBounds(100, 100, 642, 461);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -86,33 +94,38 @@ public class ap extends JFrame {
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(192, 192, 192));
+		panel_1.setForeground(new Color(192, 192, 192));
 		panel_1.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Ultimos empleados logeados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
-		JButton btnLimpiar = new JButton("Limpiar");
+		 btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
-		btnLimpiar.setForeground(Color.BLACK);
+		btnLimpiar.setForeground(Color.LIGHT_GRAY);
 		btnLimpiar.setBackground(Color.DARK_GRAY);
-		btnLimpiar.setBounds(475, 11, 106, 49);
+		btnLimpiar.setBounds(475, 11, 131, 49);
 		panel_1.add(btnLimpiar);
 		
-		JButton btnBuscar = new JButton("Buscar");
+		 btnBuscar = new JButton("Buscar");
+		 btnBuscar.setForeground(Color.LIGHT_GRAY);
 		btnBuscar.setBackground(Color.DARK_GRAY);
 		btnBuscar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\buscar-alt.png"));
-		btnBuscar.setBounds(475, 71, 106, 49);
+		btnBuscar.setBounds(475, 71, 131, 49);
 		panel_1.add(btnBuscar);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		 btnEliminar = new JButton("Eliminar");
+		 btnEliminar.setForeground(Color.LIGHT_GRAY);
 		btnEliminar.setBackground(Color.DARK_GRAY);
 		btnEliminar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\eliminar-documento.png"));
-		btnEliminar.setBounds(475, 131, 106, 49);
+		btnEliminar.setBounds(475, 131, 131, 49);
 		panel_1.add(btnEliminar);
 		
-		JButton btnEditar = new JButton("Editar");
+		 btnEditar = new JButton("Editar");
+		 btnEditar.setForeground(Color.LIGHT_GRAY);
 		btnEditar.setBackground(Color.DARK_GRAY);
 		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
-		btnEditar.setBounds(475, 191, 106, 49);
+		btnEditar.setBounds(475, 191, 131, 49);
 		panel_1.add(btnEditar);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -120,32 +133,74 @@ public class ap extends JFrame {
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
+		table.setBackground(new Color(192, 192, 192));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"ID", "Nombre", "Fecha de ingreso", "Correo"
 			}
-		));
+		)	{	
+				boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			};
+			Class[] columnTypes = new Class[] {
+					//carbiar valores dependiendo del tipo de valores
+					Object.class, String.class, Object.class, Object.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		}
+			
+				);
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setMinWidth(24);
 		table.getColumnModel().getColumn(3).setPreferredWidth(97);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre del empleado");
-		lblNewLabel_1.setBounds(10, 35, 111, 14);
+		lblNewLabel_1.setBounds(10, 35, 137, 14);
 		panel_1.add(lblNewLabel_1);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(115, 30, 150, 23);
+		txtNom.setBounds(140, 30, 150, 23);
 		panel_1.add(txtNom);
 		txtNom.setColumns(10);
 		
-		JButton btnVolver = new JButton("Volver al login");
+		 btnVolver = new JButton("back login");
+		 btnVolver.setForeground(Color.LIGHT_GRAY);
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnVolver.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\deshacer.png"));
 		btnVolver.setBackground(Color.DARK_GRAY);
-		btnVolver.setBounds(473, 247, 110, 49);
+		btnVolver.setBounds(473, 247, 133, 49);
 		panel_1.add(btnVolver);
+		
+		btnLimpiar.addActionListener(this);
+		btnEditar.addActionListener(this);
+		btnVolver.addActionListener(this);
+		btnEliminar.addActionListener(this);
+		btnBuscar.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btnLimpiar) {
+			txtNom.setText("");
+		}else if(e.getSource()==btnEditar) {
+			
+		}else if(e.getSource()==btnVolver) {
+			op abrir = new op();
+			abrir.setVisible(true);
+			this.dispose();
+		}else if(e.getSource()==btnEliminar) {
+			
+		}else if(e.getSource()==btnBuscar) {
+			
+		}
+		
 	}
 }
