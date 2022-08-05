@@ -38,7 +38,7 @@ public  class opPOO {
 	 }
 	 
 	 public static int verificarUsuarioNuevo(String user) {
-		 Vector<?> lista = mostrar();
+		 Vector lista = mostrar();
 		 opPOO obj;
 		
 		 for(int i = 0; i<lista.size(); i++) {
@@ -50,8 +50,8 @@ public  class opPOO {
 		 return -1;
 	 }
 	 
-	 public static int publicarLog(String user, String contra) {
-		 Vector<?> lista = mostrar();
+	 public static int verificarLog(String user, String contra) {
+		 Vector lista = mostrar();
 		 opPOO obj;
 		
 		 for(int i = 0; i<lista.size(); i++) {
@@ -63,7 +63,7 @@ public  class opPOO {
 		 return -1;
 	 }
 	 
-	 public static Vector<?> mostrar() {
+	 public static Vector mostrar() {
 		 return opList.mostrar();
 	 }
 

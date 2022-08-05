@@ -167,16 +167,16 @@ public class op extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnLimpiar) {
-			
+			txt1.setText("");
+			txt2.setText("");
 		}else if(e.getSource()==btnAceptar) {
-			String user = txt1.getText();
-			String contra = String.valueOf(txt2.getPassword());
+			String eeuser = txt1.getText();
+			String eecontra = String.valueOf(txt2.getPassword());
 			
 			
-			int pos = opPOO.publicarLog(user, contra);
+			int pos = opPOO.verificarLog(eeuser, eecontra);	
 			if(pos==-1) {
 				JOptionPane.showMessageDialog(null,"contaseña incorrecta o usuario");
-				txt1.setText("");
 				txt2.setText("");
 			}else {
 				//aqui va el setvisible de ap

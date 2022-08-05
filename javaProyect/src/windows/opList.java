@@ -10,7 +10,7 @@ public class opList {
 	}
 	
 	public static void eliminar(int pos) {
-		datos.removeElement(pos);
+		datos.removeElementAt(pos);
 	}
 	
 	public static Vector mostrar() {

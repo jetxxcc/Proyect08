@@ -32,7 +32,7 @@ public class opregistro extends JFrame implements ActionListener {
 	private JPasswordField txt4;
 	JButton btnRegistro, btnLog, btnLimpiar;
 	private JTextField txt3;
-	JLabel ver, ocultar;
+	JLabel ver, ocultar, Advertencia;
 	/**
 	 * Launch the application.
 	 */
@@ -80,7 +80,7 @@ public class opregistro extends JFrame implements ActionListener {
 		lblNewLabel_1.setBounds(15, 82, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("User");
+		JLabel lblNewLabel_2 = new JLabel("Usuario");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(15, 116, 46, 14);
 		contentPane.add(lblNewLabel_2);
@@ -109,52 +109,21 @@ public class opregistro extends JFrame implements ActionListener {
 		btnLimpiar.setBackground(Color.DARK_GRAY);
 		btnLimpiar.setForeground(Color.LIGHT_GRAY);
 		btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
-		btnLimpiar.setBounds(283, 183, 138, 40);
+		btnLimpiar.setBounds(286, 132, 138, 40);
 		contentPane.add(btnLimpiar);
 		
 		 btnRegistro = new JButton("Registrase");
-		 btnRegistro.addMouseListener(new MouseAdapter() {
-		 	@Override
-		 	public void mouseClicked(MouseEvent e) {
-		 		String gmail, user, nom, pass=null;
-		 		
-		 		gmail = txt1.getText();
-		 		user = txt2.getText();
-		 		nom= txt3.getText();
-		 		pass = txt4.getText();
-		 		
-		 		try {
-		 		if(gmail == null || gmail.equals(pass) || gmail.equals(user) || gmail.equals(nom)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 			
-		 		}else if(user == null || user.equals(pass) || user.equals(gmail) || user.equals(nom)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}else if(nom == null || nom.equals(pass) || nom.equals(user) || nom.equals(gmail)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}else if(pass == null || pass.equals(gmail) || pass.equals(user) || pass.equals(nom)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}else {
-		 			JOptionPane.showMessageDialog(null, "Cuenta agregada!");
-		 		}
-		 		
-		 		}catch(Exception a){
-		 			a.printStackTrace();
-		 			JOptionPane.showMessageDialog(null, "Error en el formulario.");
-		 		}
-		 		
-		 	}
-		 });
 		btnRegistro.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\controlar.png"));
 		btnRegistro.setBackground(Color.DARK_GRAY);
 		btnRegistro.setForeground(Color.LIGHT_GRAY);
-		btnRegistro.setBounds(283, 120, 138, 40);
+		btnRegistro.setBounds(286, 82, 138, 40);
 		contentPane.add(btnRegistro);
 		
 		 btnLog = new JButton("Logearme");
 		btnLog.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ingresar44.png"));
 		btnLog.setForeground(Color.LIGHT_GRAY);
 		btnLog.setBackground(Color.DARK_GRAY);
-		btnLog.setBounds(283, 59, 138, 40);
+		btnLog.setBounds(286, 183, 138, 40);
 		contentPane.add(btnLog);
 		
 		JSeparator separator = new JSeparator();
@@ -199,40 +168,67 @@ public class opregistro extends JFrame implements ActionListener {
 		contentPane.add(txt3);
 		txt3.setColumns(10);
 		
+		 Advertencia = new JLabel("...");
+		Advertencia.setBounds(15, 236, 245, 14);
+		contentPane.add(Advertencia);
+		
 		btnLimpiar.addActionListener(this);
 		btnLog.addActionListener(this);
-		btnLog.addActionListener(this);
+		btnRegistro.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 	if(e.getSource()==btnLimpiar) {
-			
+		txt1.setText("");
+		txt2.setText("");
+		txt3.setText("");
+		txt4.setText("");
 		}else if(e.getSource()==btnRegistro) {
-			String Gmail = txt1.getText();
-			String nombre = txt2.getText();
-			String user = txt3.getText();
-			String contra = String.valueOf(txt4.getPassword());
+			String eeGmail = txt1.getText();		
+			String eeuser = txt2.getText();
+			String eenombre = txt3.getText();
+			String eecontra = String.valueOf(txt4.getPassword());
+			
+			try {
+		 		if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
+		 			JOptionPane.showMessageDialog(null, "incorrecto");
+		 			
+		 		}else if(eeuser == null || eeuser.equals(eecontra) || eeuser.equals(eeGmail) || eeuser.equals(eenombre)) {
+		 			JOptionPane.showMessageDialog(null, "incorrecto");
+		 		}else if(eenombre == null || eenombre.equals(eecontra) || eenombre.equals(eeuser) || eenombre.equals(eeGmail)) {
+		 			JOptionPane.showMessageDialog(null, "incorrecto");
+		 		}else if(eecontra == null || eecontra.equals(eeGmail) || eecontra.equals(eeuser) || eecontra.equals(eenombre)) {
+		 			JOptionPane.showMessageDialog(null, "incorrecto");
+		 		}
+		 			}catch(Exception a){
+		 				a.printStackTrace();
+		 				JOptionPane.showMessageDialog(null, "Error en el formulario.");
+		 			}
 			
 			opPOO obj = new opPOO();
 			
-			if(opPOO.verificarUsuarioNuevo(user)==-1) {
-				obj.setGmail(Gmail);
-				obj.setNombre(nombre);
-				obj.setUser(user);
-				obj.setContra(contra);
+			if(opPOO.verificarUsuarioNuevo(eeuser)==-1) {
+				obj.setGmail(eeGmail);
+				obj.setNombre(eenombre);
+				obj.setUser(eeuser);
+				obj.setContra(eecontra);
 				opList.agregar(obj);
-				JOptionPane.showConfirmDialog(null, "Se agrego usuario correctamente");
+				JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente");
 			}else {
-				JOptionPane.showConfirmDialog(null, "Esta siendo usado este usuario");
+				Advertencia.setText("[no se aceptan mismo user]");
+				Advertencia.setForeground(Color.RED);
+				JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
 			}
+			
+			
 			
 		}else if(e.getSource()==btnLog) {
 			
 			op abrir = new op();
 			abrir.setVisible(true);
-			this.dispose();
+			
 		}
 	}
 }
