@@ -229,6 +229,7 @@ public class opregistro extends JFrame implements ActionListener {
 			op abrir = new op();
 			abrir.setVisible(true);
 			
+			
 		}
 	}
 }
