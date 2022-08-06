@@ -179,6 +179,12 @@ public class ap extends JFrame implements ActionListener{
 		btnVolver.setBounds(473, 247, 133, 49);
 		panel_1.add(btnVolver);
 		
+		JButton btnNewButton = new JButton("Cargar");
+		btnNewButton.setBackground(Color.DARK_GRAY);
+		btnNewButton.setForeground(Color.LIGHT_GRAY);
+		btnNewButton.setBounds(334, 11, 131, 49);
+		panel_1.add(btnNewButton);
+		
 		btnLimpiar.addActionListener(this);
 		btnEditar.addActionListener(this);
 		btnVolver.addActionListener(this);

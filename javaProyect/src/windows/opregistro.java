@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import POO.sqlUsuarios;
+import hash.hash;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,7 +36,9 @@ public class opregistro extends JFrame implements ActionListener {
 	private JPasswordField txt4;
 	JButton btnRegistro, btnLog, btnLimpiar;
 	private JTextField txt3;
-	JLabel ver, ocultar, Advertencia;
+	JLabel ver, ocultar, Advertencia, ocultar1, ver1;
+	private JPasswordField txt5;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -77,32 +83,32 @@ public class opregistro extends JFrame implements ActionListener {
 		
 		JLabel lblNewLabel_1 = new JLabel("Gmail");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(15, 82, 46, 14);
+		lblNewLabel_1.setBounds(13, 56, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Usuario");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_2.setBounds(15, 116, 46, 14);
+		lblNewLabel_2.setBounds(13, 90, 46, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Contraseña");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_3.setBounds(43, 183, 67, 14);
+		lblNewLabel_3.setBounds(41, 157, 67, 14);
 		contentPane.add(lblNewLabel_3);
 		
 		txt1 = new JTextField();
-		txt1.setBounds(79, 79, 138, 23);
+		txt1.setBounds(77, 53, 138, 23);
 		contentPane.add(txt1);
 		txt1.setColumns(10);
 		
 		txt2 = new JTextField();
-		txt2.setBounds(79, 113, 138, 23);
+		txt2.setBounds(77, 87, 138, 23);
 		contentPane.add(txt2);
 		txt2.setColumns(10);
 		
 		txt4 = new JPasswordField();
 		txt4.setEchoChar('*');
-		txt4.setBounds(120, 180, 97, 23);
+		txt4.setBounds(118, 154, 97, 23);
 		contentPane.add(txt4);
 		
 		 btnLimpiar = new JButton("Limpiar");
@@ -141,7 +147,7 @@ public class opregistro extends JFrame implements ActionListener {
 			}
 		});
 		ver.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ojo.png"));
-		ver.setBounds(227, 189, 27, 14);
+		ver.setBounds(225, 163, 27, 14);
 		contentPane.add(ver);
 		
 		 ocultar = new JLabel("");
@@ -154,27 +160,71 @@ public class opregistro extends JFrame implements ActionListener {
 		 	}
 		 });
 		ocultar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ojos-cruzados.png"));
-		ocultar.setBounds(227, 189, 27, 14);
+		ocultar.setBounds(225, 163, 27, 14);
 		this.ocultar.setVisible(false);
 		contentPane.add(ocultar);
 		
 		JLabel lblNewLabel_6 = new JLabel("Nombre");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_6.setBounds(15, 150, 57, 14);
+		lblNewLabel_6.setBounds(13, 124, 57, 14);
 		contentPane.add(lblNewLabel_6);
 		
 		txt3 = new JTextField();
-		txt3.setBounds(79, 147, 138, 23);
+		txt3.setBounds(77, 121, 138, 23);
 		contentPane.add(txt3);
 		txt3.setColumns(10);
 		
-		 Advertencia = new JLabel("...");
-		Advertencia.setBounds(15, 236, 245, 14);
+		 Advertencia = new JLabel("<html>...</html>");
+		Advertencia.setBounds(15, 223, 245, 27);
 		contentPane.add(Advertencia);
+		
+		JLabel lblNewLabel_4 = new JLabel("<html>Confirmar contraseña</html>");
+		lblNewLabel_4.setBounds(41, 182, 67, 36);
+		contentPane.add(lblNewLabel_4);
+		
+		txt5 = new JPasswordField();
+		txt5.setEchoChar('*');
+		txt5.setBounds(118, 193, 97, 23);
+		contentPane.add(txt5);
+		
+		 ver1 = new JLabel("");
+		 ver1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					ver1.setVisible(false);
+					ocultar1.setVisible(true);
+					txt5.setEchoChar((char)0);
+				}
+			});
+		ver1.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ojo.png"));
+		ver1.setBounds(225, 204, 27, 14);
+		contentPane.add(ver1);
+		
+		ocultar1 = new JLabel("");
+		ocultar1.addMouseListener(new MouseAdapter() {
+		 	@Override
+		 	public void mousePressed(MouseEvent e) {
+		 		ver1.setVisible(true);
+				ocultar1.setVisible(false);
+				txt5.setEchoChar('*');
+		 	}
+		 });
+		ocultar1.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ojos-cruzados.png"));
+		ocultar1.setBounds(225, 204, 27, 14);
+		this.ocultar1.setVisible(false);
+		contentPane.add(ocultar1);
 		
 		btnLimpiar.addActionListener(this);
 		btnLog.addActionListener(this);
 		btnRegistro.addActionListener(this);
+	}
+	
+	private void limpiarRegistro() {
+		txt1.setText("");
+		txt2.setText("");
+		txt3.setText("");
+		txt4.setText("");
+		txt5.setText("");
 	}
 
 	@Override
@@ -185,11 +235,13 @@ public class opregistro extends JFrame implements ActionListener {
 		txt2.setText("");
 		txt3.setText("");
 		txt4.setText("");
+		txt5.setText("");
 		}else if(e.getSource()==btnRegistro) {
 			String eeGmail = txt1.getText();		
 			String eeuser = txt2.getText();
 			String eenombre = txt3.getText();
 			String eecontra = String.valueOf(txt4.getPassword());
+			String eecontraConfirm = String.valueOf(txt5.getPassword());
 			
 			try {
 		 		if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
@@ -209,18 +261,42 @@ public class opregistro extends JFrame implements ActionListener {
 			
 			opPOO obj = new opPOO();
 			
-			if(opPOO.verificarUsuarioNuevo(eeuser)==-1) {
-				obj.setGmail(eeGmail);
-				obj.setNombre(eenombre);
-				obj.setUser(eeuser);
-				obj.setContra(eecontra);
-				opList.agregar(obj);
-				JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente");
+			
+			
+			//conexion a base de datos de registro
+			
+			sqlUsuarios modSql = new sqlUsuarios();
+				
+			if(eecontra.equals(eecontraConfirm)) {
+				String newpass = hash.sha1(eecontra);
+				
+				if(opPOO.verificarUsuarioNuevo(eeuser)==-1) {
+					obj.setGmail(eeGmail);
+					obj.setNombre(eenombre);
+					obj.setUser(eeuser);
+					obj.setContra(newpass);
+					obj.setId_tipo(1);
+					
+					opList.agregar(obj);
+					
+					if(modSql.registrar(obj)) {
+						JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente");
+						limpiarRegistro();
+					}else {
+						JOptionPane.showMessageDialog(null, "No se puedo guardar, hubo un error");
+					}
+					
+				}else{
+					Advertencia.setText("[no se aceptan mismo user]");
+					Advertencia.setForeground(Color.RED);
+					JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
+				}
+				
 			}else {
-				Advertencia.setText("[no se aceptan mismo user]");
-				Advertencia.setForeground(Color.RED);
-				JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
+				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
 			}
+			
+			
 			
 			
 			
@@ -231,5 +307,6 @@ public class opregistro extends JFrame implements ActionListener {
 			
 			
 		}
+
 	}
 }

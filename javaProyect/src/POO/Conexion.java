@@ -3,27 +3,28 @@ package POO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Conexion {
-	private static Connection con;
+	
+	private static Connection con=null;
+	private static String base = "usuarios";
 	private static String user = "root";
 	private static String password = "";
-	private static String url = "jdbc:mysql://localhost:3306/";
+	private static String url = "jdbc:mysql://localhost:3306/" + base; 
 	
-	public Conexion() {
-		con=null;
+	public Connection getConexion() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con=DriverManager.getConnection(url,user,password);
 			
-			}catch(ClassNotFoundException | SQLException e) {
-			System.out.print("error al conectar" + e);
+			}catch(ClassNotFoundException | SQLException ex) {
+			Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE,null,ex);
 			
 					}
-				
-			}	
-	public Connection getConnection() {
-		return  con;
+		return con;
 	}
+	
 	
 }

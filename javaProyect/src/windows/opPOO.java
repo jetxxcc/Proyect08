@@ -3,6 +3,7 @@ package windows;
 import java.util.Vector;
 
 public  class opPOO {
+	private int id, id_tipo;
 	 private String gmail, nombre, user, contra;
 	
 
@@ -22,18 +23,18 @@ public  class opPOO {
 		 this.nombre=nombre;
 	 }
 	 
-	 String getUser() {
+	 public String getUser() {
 		 return user;
 	 }
-	 String getContra() {
+	 public String getContra() {
 		 return contra;
 	 }
 	 
-	 String getGmail() {
+	 public String getGmail() {
 		 return gmail;
 	 }
 	 
-	 String getNombre() {
+	 public String getNombre() {
 		 return nombre;
 	 }
 	 
@@ -66,5 +67,21 @@ public  class opPOO {
 	 public static Vector mostrar() {
 		 return opList.mostrar();
 	 }
+
+	public int getId_tipo() {
+		return id_tipo;
+	}
+
+	public void setId_tipo(int id_tipo) {
+		this.id_tipo = id_tipo;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }
