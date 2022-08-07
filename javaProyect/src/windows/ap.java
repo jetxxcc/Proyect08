@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 public class ap extends JFrame implements ActionListener{
 
@@ -30,6 +31,27 @@ public class ap extends JFrame implements ActionListener{
 	private static JTable table;
 	private JTextField txtNom;
 	JButton btnBuscar, btnVolver, btnLimpiar, btnEliminar, btnEditar;
+	JMenu mnRegistroEmple,mnRegistroCliente,mnRegistroProducto,mnVentas,mnAyuda;
+	
+	opPOO obj;
+	private JLabel lblNom;
+	private JLabel lblRol;
+	
+	public ap(opPOO obj) {
+		setLocationRelativeTo(null);
+		this.obj=obj;
+		//creo que hay un error de la clase ya que esta en formato jframe y no se puede hacer una clase con parametro, en windows bulder se puede hacer creo, pero hay que investigar, nada mas esto falta
+		lblNom.setText("'"+obj.getNombre()+"'");
+		lblRol.setText("["+obj.getNombre_tipo()+"]");
+		
+		if(obj.getId_tipo()==1) {
+			
+		}else if(obj.getId_tipo()==2) {
+			btnEditar.setVisible(false);
+			btnEliminar.setVisible(false);
+			mnRegistroCliente.setVisible(false);
+		}
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -58,26 +80,26 @@ public class ap extends JFrame implements ActionListener{
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt.png"));
 		setTitle("Registro de Empleados");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 642, 461);
+		setBounds(100, 100, 749, 489);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Registro de Empleados");
-		mnNewMenu.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt33.png"));
-		menuBar.add(mnNewMenu);
+		 mnRegistroEmple = new JMenu("Registro de Empleados");
+		mnRegistroEmple.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt33.png"));
+		menuBar.add(mnRegistroEmple);
 		
-		JMenu mnNewMenu_1 = new JMenu("Registro de Clientes");
-		menuBar.add(mnNewMenu_1);
+		 mnRegistroCliente = new JMenu("Registro de Clientes");
+		menuBar.add(mnRegistroCliente);
 		
-		JMenu mnNewMenu_2 = new JMenu("Registro de Productos");
-		menuBar.add(mnNewMenu_2);
+		 mnRegistroProducto = new JMenu("Registro de Productos");
+		menuBar.add(mnRegistroProducto);
 		
-		JMenu mnNewMenu_3 = new JMenu("Ventas");
-		menuBar.add(mnNewMenu_3);
+		 mnVentas = new JMenu("Ventas");
+		menuBar.add(mnVentas);
 		
-		JMenu mnNewMenu_4 = new JMenu("Ayuda");
-		menuBar.add(mnNewMenu_4);
+		 mnAyuda = new JMenu("Ayuda");
+		menuBar.add(mnAyuda);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -93,6 +115,16 @@ public class ap extends JFrame implements ActionListener{
 		lblNewLabel.setForeground(Color.LIGHT_GRAY);
 		panel.add(lblNewLabel);
 		
+		lblNom = new JLabel("");
+		lblNom.setFont(new Font("Segoe UI Historic", Font.PLAIN, 12));
+		lblNom.setForeground(Color.LIGHT_GRAY);
+		panel.add(lblNom);
+		
+		lblRol = new JLabel("");
+		lblRol.setFont(new Font("Segoe UI Historic", Font.PLAIN, 12));
+		lblRol.setForeground(Color.LIGHT_GRAY);
+		panel.add(lblRol);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
 		panel_1.setForeground(new Color(192, 192, 192));
@@ -104,62 +136,59 @@ public class ap extends JFrame implements ActionListener{
 		btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
 		btnLimpiar.setForeground(Color.LIGHT_GRAY);
 		btnLimpiar.setBackground(Color.DARK_GRAY);
-		btnLimpiar.setBounds(475, 11, 131, 49);
+		btnLimpiar.setBounds(571, 35, 131, 49);
 		panel_1.add(btnLimpiar);
 		
 		 btnBuscar = new JButton("Buscar");
 		 btnBuscar.setForeground(Color.LIGHT_GRAY);
 		btnBuscar.setBackground(Color.DARK_GRAY);
 		btnBuscar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\buscar-alt.png"));
-		btnBuscar.setBounds(475, 71, 131, 49);
+		btnBuscar.setBounds(571, 95, 131, 49);
 		panel_1.add(btnBuscar);
 		
 		 btnEliminar = new JButton("Eliminar");
 		 btnEliminar.setForeground(Color.LIGHT_GRAY);
 		btnEliminar.setBackground(Color.DARK_GRAY);
 		btnEliminar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\eliminar-documento.png"));
-		btnEliminar.setBounds(475, 131, 131, 49);
+		btnEliminar.setBounds(571, 155, 131, 49);
 		panel_1.add(btnEliminar);
 		
 		 btnEditar = new JButton("Editar");
 		 btnEditar.setForeground(Color.LIGHT_GRAY);
 		btnEditar.setBackground(Color.DARK_GRAY);
 		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
-		btnEditar.setBounds(475, 191, 131, 49);
+		btnEditar.setBounds(571, 215, 131, 49);
 		panel_1.add(btnEditar);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 64, 455, 232);
+		scrollPane.setBounds(9, 77, 542, 251);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
 		table.setBackground(new Color(192, 192, 192));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"ID", "Nombre", "Fecha de ingreso", "Correo"
+				"ID", "Nombre", "Fecha de ingreso", "Correo", "User", "Password", "ID_TIPO"
 			}
-		)	{	
-				boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+		) {
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
-			};
-			Class[] columnTypes = new Class[] {
-					//carbiar valores dependiendo del tipo de valores
-					Object.class, String.class, Object.class, Object.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
 			}
 		}
 			
 				);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setMinWidth(24);
-		table.getColumnModel().getColumn(3).setPreferredWidth(97);
+		table.getColumnModel().getColumn(0).setPreferredWidth(38);
+		table.getColumnModel().getColumn(2).setPreferredWidth(115);
+		table.getColumnModel().getColumn(3).setPreferredWidth(104);
+		table.getColumnModel().getColumn(5).setPreferredWidth(72);
+		table.getColumnModel().getColumn(5).setMinWidth(24);
+		table.getColumnModel().getColumn(6).setPreferredWidth(60);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre del empleado");
@@ -176,14 +205,21 @@ public class ap extends JFrame implements ActionListener{
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnVolver.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\deshacer.png"));
 		btnVolver.setBackground(Color.DARK_GRAY);
-		btnVolver.setBounds(473, 247, 133, 49);
+		btnVolver.setBounds(569, 271, 133, 49);
 		panel_1.add(btnVolver);
 		
 		JButton btnNewButton = new JButton("Cargar");
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\tiempo-pasado.png"));
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setForeground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(334, 11, 131, 49);
+		btnNewButton.setBounds(412, 18, 131, 49);
 		panel_1.add(btnNewButton);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Opciones", TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
+		panel_2.setBackground(new Color(192, 192, 192));
+		panel_2.setBounds(561, 18, 152, 315);
+		panel_1.add(panel_2);
 		
 		btnLimpiar.addActionListener(this);
 		btnEditar.addActionListener(this);

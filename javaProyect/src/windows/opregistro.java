@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class opregistro extends JFrame implements ActionListener {
@@ -59,9 +61,15 @@ public class opregistro extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public opregistro() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				app.frmRegis = null;
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\ingresar.png"));
 		setTitle("Registrandose");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
@@ -175,7 +183,7 @@ public class opregistro extends JFrame implements ActionListener {
 		txt3.setColumns(10);
 		
 		 Advertencia = new JLabel("<html>...</html>");
-		Advertencia.setBounds(15, 223, 245, 27);
+		Advertencia.setBounds(15, 223, 245, 38);
 		contentPane.add(Advertencia);
 		
 		JLabel lblNewLabel_4 = new JLabel("<html>Confirmar contraseña</html>");
@@ -243,60 +251,79 @@ public class opregistro extends JFrame implements ActionListener {
 			String eecontra = String.valueOf(txt4.getPassword());
 			String eecontraConfirm = String.valueOf(txt5.getPassword());
 			
-			try {
-		 		if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 			
-		 		}else if(eeuser == null || eeuser.equals(eecontra) || eeuser.equals(eeGmail) || eeuser.equals(eenombre)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}else if(eenombre == null || eenombre.equals(eecontra) || eenombre.equals(eeuser) || eenombre.equals(eeGmail)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}else if(eecontra == null || eecontra.equals(eeGmail) || eecontra.equals(eeuser) || eecontra.equals(eenombre)) {
-		 			JOptionPane.showMessageDialog(null, "incorrecto");
-		 		}
-		 			}catch(Exception a){
-		 				a.printStackTrace();
-		 				JOptionPane.showMessageDialog(null, "Error en el formulario.");
-		 			}
+			
+			if(eeGmail.equals("") || eecontra.equals("") || eeuser.equals("") || eenombre.equals("") || eecontraConfirm.equals("")) {
+				
+	 			JOptionPane.showMessageDialog(null, "hay celdas vacias, complete las celdas!");
+	 			
+			}else {
+				
+			if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 			
+	 		}else if(eeuser == null || eeuser.equals(eecontra) || eeuser.equals(eeGmail) || eeuser.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eenombre == null || eenombre.equals(eecontra) || eenombre.equals(eeuser) || eenombre.equals(eeGmail)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eecontra == null || eecontra.equals(eeGmail) || eecontra.equals(eeuser) || eecontra.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}
 			
 			opPOO obj = new opPOO();
-			
-			
-			
+
 			//conexion a base de datos de registro
 			
 			sqlUsuarios modSql = new sqlUsuarios();
 				
 			if(eecontra.equals(eecontraConfirm)) {
-				String newpass = hash.sha1(eecontra);
 				
-				if(opPOO.verificarUsuarioNuevo(eeuser)==-1) {
-					obj.setGmail(eeGmail);
-					obj.setNombre(eenombre);
-					obj.setUser(eeuser);
-					obj.setContra(newpass);
-					obj.setId_tipo(1);
+				if(modSql.verificarUsuarioExistente(eeuser)==0) {
 					
-					opList.agregar(obj);
+					if(modSql.verificarGmailExistente(eeGmail)==0) {
 					
-					if(modSql.registrar(obj)) {
-						JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente");
-						limpiarRegistro();
-					}else {
-						JOptionPane.showMessageDialog(null, "No se puedo guardar, hubo un error");
-					}
+						if(modSql.esEmail(eeGmail)) {
+						
 					
-				}else{
-					Advertencia.setText("[no se aceptan mismo user]");
-					Advertencia.setForeground(Color.RED);
-					JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
-				}
+					String newpass = hash.sha1(eecontra);
+					
+					
+								obj.setGmail(eeGmail);
+								obj.setNombre(eenombre);
+								obj.setUser(eeuser);
+								obj.setContra(newpass);
+								obj.setId_tipo(1);
+					
+																			if(modSql.registrar(obj)) {
+																				JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente!");
+																				limpiarRegistro();
+																				Advertencia.setText("");
+																			}else {
+																//por si da error la conexion de la base de dato u otra cosa, esto no indentifica para eso
+																				JOptionPane.showMessageDialog(null, "No se puedo guardar, hubo un error.");
+																			}
+																	}else {
+																		Advertencia.setText("<html>[la celda de gmail no esta bien, posiblemente no colocaste bien el email, verifica...]</html>");
+																		Advertencia.setForeground(Color.RED);
+																		JOptionPane.showMessageDialog(null, "Error en el gmail");
+																	}//cierre del if verificacion de gmail esta bien puesto @gmail o @hotmail
+													}else {
+														Advertencia.setText("<html>[no se aceptan mismo gmail, verifica si esta bien puesto...]</html>");
+														Advertencia.setForeground(Color.RED);
+														JOptionPane.showMessageDialog(null, "Esta siendo usado este gmail");
+													}
+										}else{
+											Advertencia.setText("<html>[no se aceptan mismo usuario, verifica uno si esta bien puesto...]</html>");
+											Advertencia.setForeground(Color.RED);
+											JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
+										}//cierre del if verificacion de user
 				
-			}else {
-				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-			}
-			
-			
+				
+				
+						}else {
+							JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+							}//cierre de if de validacion de contraseñas
+		
+			}//cierre de if validacion si hay celdas
 			
 			
 			
@@ -304,6 +331,7 @@ public class opregistro extends JFrame implements ActionListener {
 			
 			op abrir = new op();
 			abrir.setVisible(true);
+			this.dispose();
 			
 			
 		}

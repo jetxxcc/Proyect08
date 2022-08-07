@@ -23,9 +23,18 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
+
+import POO.sqlUsuarios;
+import hash.hash;
+
 import javax.swing.border.LineBorder;
 import javax.swing.JPasswordField;
 import javax.swing.UIManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class op extends JFrame implements ActionListener{
 
@@ -44,9 +53,15 @@ public class op extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public op() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				app.frmLogin = null;// sirve para cuando uno cierre la ventana, y le des al boton de nuevo aparezca, por default se pone null y no habre
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\login.png"));
 		setTitle("Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(192, 192, 192));
@@ -173,16 +188,35 @@ public class op extends JFrame implements ActionListener{
 			String eeuser = txt1.getText();
 			String eecontra = String.valueOf(txt2.getPassword());
 			
+			sqlUsuarios modSql = new sqlUsuarios();
+			opPOO obj = new opPOO();
 			
-			int pos = opPOO.verificarLog(eeuser, eecontra);	
-			if(pos==-1) {
-				JOptionPane.showMessageDialog(null,"contaseña incorrecta o usuario");
-				txt2.setText("");
+			Date date = new Date();
+			DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			if(!eeuser.equals("") && !eecontra.equals("")) {
+				
+				String passCifrado = hash.sha1(eecontra);
+				
+				obj.setUser(eeuser);
+				obj.setContra(passCifrado);
+				obj.setLast_session(fechaHora.format(date));
+				
+					
+						if(modSql.Login(obj)) {
+							app.frmLogin = null;// para que no se habra muchas veces en el boton del login
+							this.dispose();
+							
+							ap abrir = new ap(obj);//aqui se habre el registro de empleado
+							abrir.setVisible(true);
+							
+						}else {
+							JOptionPane.showMessageDialog(null,"contaseña incorrecta o usuario");
+							txt2.setText("");
+						}
+
 			}else {
-				//aqui va el setvisible de ap
-				ap abrir = new ap();
-				abrir.setVisible(true);
-				this.dispose();
+				JOptionPane.showMessageDialog(null,"debe ingresar sus datos");
 			}
 		}else if(e.getSource()==btnRegistrarse) {
 			

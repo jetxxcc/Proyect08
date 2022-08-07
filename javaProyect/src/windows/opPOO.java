@@ -4,22 +4,22 @@ import java.util.Vector;
 
 public  class opPOO {
 	private int id, id_tipo;
-	 private String gmail, nombre, user, contra;
+	 private String gmail, nombre, user, contra, last_session, nombre_tipo;
 	
 
-	void setUser(String user) {
+	public void setUser(String user) {
 		 this.user=user;
 	 }
 	 
-	 void setContra(String contra) {
+	 public void setContra(String contra) {
 		 this.contra=contra;
 	 }
 	 
-	 void setGmail(String gmail) {
+	 public void setGmail(String gmail) {
 		 this.gmail=gmail;
 	 }
 	 
-	 void setNombre(String nombre) {
+	 public void setNombre(String nombre) {
 		 this.nombre=nombre;
 	 }
 	 
@@ -83,5 +83,23 @@ public  class opPOO {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public String getLast_session() {
+		return last_session;
+	}
+
+	public void setLast_session(String last_session) {
+		this.last_session = last_session;
+	}
+
+	public String getNombre_tipo() {
+		return nombre_tipo;
+	}
+
+	public void setNombre_tipo(String nombre_tipo) {
+		this.nombre_tipo = nombre_tipo;
+	}
+
+	
 
 }
