@@ -124,7 +124,8 @@ public class sqlUsuarios extends Conexion {
 		
 	}
 
-	public boolean esEmail(String correo) {
+	
+ 	public boolean esEmail(String correo) {
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+´)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 

@@ -19,6 +19,13 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
+
+import POO.Conexion;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +52,13 @@ public class ap extends JFrame implements ActionListener{
 	 */
 	 static void AddRow(Object[] dataRow) {
 			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			table.setModel(model);
 			model.addRow(dataRow);
+			
+			/*PreparedStatement ps = null;
+			ResultSet rs = null;
+			Conexion conn = new Conexion();
+			Connection conn = conn.getc*/
 		}
 	
 	public static void main(String[] args) {
@@ -191,8 +204,14 @@ public class ap extends JFrame implements ActionListener{
 				"ID", "Nombre", "Fecha de ingreso", "Correo", "User", "Password", "ID_TIPO"
 			}
 		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
 			boolean[] columnEditables = new boolean[] {
-				true, true, true, false, false, false, false
+				true, false, true, true, true, true, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];

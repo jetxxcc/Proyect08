@@ -90,7 +90,7 @@ public class op extends JFrame implements ActionListener{
 		contentPane.add(separator);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setBounds(25, 154, 96, 96);
+		lblNewLabel_3.setBounds(35, 154, 96, 96);
 		contentPane.add(lblNewLabel_3);
 		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\login-arrow-symbol-entering-back-into-a-square_icon-icons.com_73221.png"));
 		

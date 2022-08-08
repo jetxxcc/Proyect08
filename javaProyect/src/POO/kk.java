@@ -1,10 +1,11 @@
 package POO;
 
-import windows.op;
+import windows.app;
+
 
 public class kk {
 	public static void  main(String[] args) {
-		op a = new op();
+		app a = new app();
 		a.setVisible(true);
 	}
 }
