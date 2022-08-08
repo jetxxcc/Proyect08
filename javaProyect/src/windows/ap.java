@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
@@ -36,22 +37,9 @@ public class ap extends JFrame implements ActionListener{
 	opPOO obj;
 	private JLabel lblNom;
 	private JLabel lblRol;
+	JPanel panel_2;
 	
-	public ap(opPOO obj) {
-		setLocationRelativeTo(null);
-		this.obj=obj;
-		//creo que hay un error de la clase ya que esta en formato jframe y no se puede hacer una clase con parametro, en windows bulder se puede hacer creo, pero hay que investigar, nada mas esto falta
-		lblNom.setText("'"+obj.getNombre()+"'");
-		lblRol.setText("["+obj.getNombre_tipo()+"]");
-		
-		if(obj.getId_tipo()==1) {
-			
-		}else if(obj.getId_tipo()==2) {
-			btnEditar.setVisible(false);
-			btnEliminar.setVisible(false);
-			mnRegistroCliente.setVisible(false);
-		}
-	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -72,14 +60,43 @@ public class ap extends JFrame implements ActionListener{
 			}
 		});
 	}
-
+	
+	public ap() {
+		inicializar();
+	}
+		
+	public ap(opPOO obj) {
+		
+		inicializar();
+		setLocationRelativeTo(null);
+		this.obj=obj;
+		
+		
+		try {
+		lblNom.setText("'"+obj.getNombre()+"'");
+		lblRol.setText("["+obj.getNombre_tipo()+"]");
+		}catch(Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "ese es el problema");
+		}
+		if(obj.getId_tipo()==1) {
+			
+		}else if(obj.getId_tipo()==2) {
+			btnEditar.setVisible(false);
+			btnEliminar.setVisible(false);
+			mnRegistroCliente.setVisible(false);
+			btnVolver.setBounds(569, 155, 133, 49);
+			panel_2.setBounds(561, 18, 152, 197);
+			
+		}
+	}
 	/**
 	 * Create the frame.
 	 */
-	public ap() {
+	private void inicializar() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt.png"));
 		setTitle("Registro de Empleados");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 749, 489);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -215,7 +232,7 @@ public class ap extends JFrame implements ActionListener{
 		btnNewButton.setBounds(412, 18, 131, 49);
 		panel_1.add(btnNewButton);
 		
-		JPanel panel_2 = new JPanel();
+		 panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Opciones", TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
 		panel_2.setBackground(new Color(192, 192, 192));
 		panel_2.setBounds(561, 18, 152, 315);

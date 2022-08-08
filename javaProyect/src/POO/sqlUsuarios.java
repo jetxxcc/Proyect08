@@ -94,7 +94,7 @@ public class sqlUsuarios extends Conexion {
 		ps.setString(1, usr.getUser());
 		rs = (ResultSet) ps.executeQuery();
 		
-				if(rs.next()) {
+				if(rs.next()) {//aqui va validacion de contaseña en el login
 					if(usr.getContra().equals(rs.getString(3))) { //depende de la posicion que este los campos, estos pueden cambiar, el password esta en la posicion 4
 						
 						String sqlUpdate = "update usuarios set last_session = ? where id = ?";

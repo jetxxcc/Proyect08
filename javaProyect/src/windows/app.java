@@ -40,6 +40,7 @@ public class app extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
