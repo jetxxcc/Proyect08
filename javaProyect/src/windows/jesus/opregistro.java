@@ -1,4 +1,4 @@
-package windows;
+package windows.jesus;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import POO.sqlUsuarios;
-import hash.hash;
+import hash.jesus.hash;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

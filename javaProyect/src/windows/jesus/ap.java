@@ -1,4 +1,4 @@
-package windows;
+package windows.jesus;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

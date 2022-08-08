@@ -1,4 +1,4 @@
-package windows;
+package windows.jesus;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -25,7 +25,7 @@ import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
 import POO.sqlUsuarios;
-import hash.hash;
+import hash.jesus.hash;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JPasswordField;

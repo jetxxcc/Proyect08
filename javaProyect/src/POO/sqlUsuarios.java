@@ -11,7 +11,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSet;
 
-import windows.opPOO;
+import windows.jesus.opPOO;
 
 
 public class sqlUsuarios extends Conexion {

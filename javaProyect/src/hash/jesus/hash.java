@@ -1,4 +1,4 @@
-package hash;
+package hash.jesus;
 
 public class hash {
 	 /* Retorna un hash a partir de un tipo y un texto */
