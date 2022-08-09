@@ -274,7 +274,7 @@ public class ap extends JFrame implements ActionListener{
 		}else if(e.getSource()==btnEditar) {
 		
 			if(abrirEditar==null) {
-				abrirEditar = new apbtneditar();
+				abrirEditar = new apbtneditar(obj);
 				abrirEditar.setVisible(true);
 			}
 		}else if(e.getSource()==btnVolver) {
@@ -338,9 +338,9 @@ public class ap extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(null, "error a conexion a la base de datos");
 			}
 			
-		}
+		}//termina el btncargar
 		
-		/* hacer el boton de cargar y poner esto en el boton de cargar*/
+		
 		
 	}
 }
