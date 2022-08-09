@@ -25,10 +25,17 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSet;
 
 import POO.Conexion;
+import POO.sqlUsuarios;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -37,8 +44,8 @@ public class ap extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private static JTable table;
-	private JTextField txtNom;
-	JButton btnBuscar, btnVolver, btnLimpiar, btnEliminar, btnEditar;
+	private  JTextField txtNom;
+	JButton btnVolver, btnLimpiar, btnEliminar, btnEditar, btnCargar;
 	JMenu mnRegistroEmple,mnRegistroCliente,mnRegistroProducto,mnVentas,mnAyuda;
 	
 	opPOO obj;
@@ -46,20 +53,13 @@ public class ap extends JFrame implements ActionListener{
 	private JLabel lblRol;
 	JPanel panel_2;
 	
+	public static apbtneditar abrirEditar;
+
 
 	/**
 	 * Launch the application.
 	 */
-	 static void AddRow(Object[] dataRow) {
-			DefaultTableModel model=(DefaultTableModel)table.getModel();
-			table.setModel(model);
-			model.addRow(dataRow);
-			
-			/*PreparedStatement ps = null;
-			ResultSet rs = null;
-			Conexion conn = new Conexion();
-			Connection conn = conn.getc*/
-		}
+
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -90,7 +90,7 @@ public class ap extends JFrame implements ActionListener{
 		lblRol.setText("["+obj.getNombre_tipo()+"]");
 		}catch(Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "ese es el problema");
+			JOptionPane.showMessageDialog(null, "problema con los admis y usuarios");
 		}
 		if(obj.getId_tipo()==1) {
 			
@@ -107,6 +107,12 @@ public class ap extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	private void inicializar() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				app.frmLogin = null;// sirve para cuando uno cierre la ventana, y le des al boton de nuevo aparezca, por default se pone null y no habre
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\usuarios-alt.png"));
 		setTitle("Registro de Empleados");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -169,13 +175,6 @@ public class ap extends JFrame implements ActionListener{
 		btnLimpiar.setBounds(571, 35, 131, 49);
 		panel_1.add(btnLimpiar);
 		
-		 btnBuscar = new JButton("Buscar");
-		 btnBuscar.setForeground(Color.LIGHT_GRAY);
-		btnBuscar.setBackground(Color.DARK_GRAY);
-		btnBuscar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\buscar-alt.png"));
-		btnBuscar.setBounds(571, 95, 131, 49);
-		panel_1.add(btnBuscar);
-		
 		 btnEliminar = new JButton("Eliminar");
 		 btnEliminar.setForeground(Color.LIGHT_GRAY);
 		btnEliminar.setBackground(Color.DARK_GRAY);
@@ -183,10 +182,10 @@ public class ap extends JFrame implements ActionListener{
 		btnEliminar.setBounds(571, 155, 131, 49);
 		panel_1.add(btnEliminar);
 		
-		 btnEditar = new JButton("Editar");
+		 btnEditar = new JButton("<html>Editar/Guardar</html>");
 		 btnEditar.setForeground(Color.LIGHT_GRAY);
 		btnEditar.setBackground(Color.DARK_GRAY);
-		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
+		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\editar (1).png"));
 		btnEditar.setBounds(571, 215, 131, 49);
 		panel_1.add(btnEditar);
 		
@@ -198,33 +197,25 @@ public class ap extends JFrame implements ActionListener{
 		table.setBackground(new Color(192, 192, 192));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"ID", "Nombre", "Fecha de ingreso", "Correo", "User", "Password", "ID_TIPO"
+				"ID", "Usuario", "Password", "Nombre", "Correo", "Ultimo acceso"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false, true, true, true, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		}
 			
 				);
 		table.getColumnModel().getColumn(0).setPreferredWidth(38);
-		table.getColumnModel().getColumn(2).setPreferredWidth(115);
-		table.getColumnModel().getColumn(3).setPreferredWidth(104);
-		table.getColumnModel().getColumn(5).setPreferredWidth(72);
+		table.getColumnModel().getColumn(3).setPreferredWidth(95);
+		table.getColumnModel().getColumn(4).setPreferredWidth(115);
+		table.getColumnModel().getColumn(5).setPreferredWidth(142);
 		table.getColumnModel().getColumn(5).setMinWidth(24);
-		table.getColumnModel().getColumn(6).setPreferredWidth(60);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre del empleado");
@@ -244,41 +235,112 @@ public class ap extends JFrame implements ActionListener{
 		btnVolver.setBounds(569, 271, 133, 49);
 		panel_1.add(btnVolver);
 		
-		JButton btnNewButton = new JButton("Cargar");
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\tiempo-pasado.png"));
-		btnNewButton.setBackground(Color.DARK_GRAY);
-		btnNewButton.setForeground(Color.LIGHT_GRAY);
-		btnNewButton.setBounds(412, 18, 131, 49);
-		panel_1.add(btnNewButton);
-		
 		 panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Opciones", TitledBorder.LEADING, TitledBorder.TOP, null, Color.GRAY));
 		panel_2.setBackground(new Color(192, 192, 192));
 		panel_2.setBounds(561, 18, 152, 315);
 		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
+		 btnCargar = new JButton("<html>Cargar/Buscar</html>");
+		 btnCargar.setBounds(10, 78, 131, 49);
+		 panel_2.add(btnCargar);
+		 btnCargar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\tiempo-pasado.png"));
+		 btnCargar.setBackground(Color.DARK_GRAY);
+		 btnCargar.setForeground(Color.LIGHT_GRAY);
+		 btnCargar.addActionListener(this);
 		
 		btnLimpiar.addActionListener(this);
 		btnEditar.addActionListener(this);
 		btnVolver.addActionListener(this);
 		btnEliminar.addActionListener(this);
-		btnBuscar.addActionListener(this);
+		
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnLimpiar) {
-			txtNom.setText("");
-		}else if(e.getSource()==btnEditar) {
+			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			table.setModel(model);
 			
+			txtNom.setText("");
+			
+			int fila = model.getRowCount();
+			for(int i=0; i<fila; i++) {
+				model.removeRow(0);//recorre todos los rows, campos de la tabla para limpiarlo
+			}
+			
+		}else if(e.getSource()==btnEditar) {
+		
+			if(abrirEditar==null) {
+				abrirEditar = new apbtneditar();
+				abrirEditar.setVisible(true);
+			}
 		}else if(e.getSource()==btnVolver) {
 			op abrir = new op();
 			abrir.setVisible(true);
 			this.dispose();
-		}else if(e.getSource()==btnEliminar) {
 			
-		}else if(e.getSource()==btnBuscar) {
+		}else if(e.getSource()==btnEliminar) {
+			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			table.setModel(model);
+			int fila=table.getSelectedRow();
+			model.removeRow(fila);
+		}else if(e.getSource()==btnCargar) {
+			
+			String campo = txtNom.getText();
+			String where = "";//opcion para cuando usemos el indice
+			
+			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			table.setModel(model);
+			
+			if(!"".equals(campo)) {//aqui se valida el indice, dependiendo
+				
+				int Recorrefila = model.getRowCount();
+				for(int i=0; i<Recorrefila; i++) {
+					model.removeRow(0);//se limpia y se aguega un query where para buscar el campo
+				}
+				
+				where = "WHERE nombre = '"+ campo +"'";
+			}
+			
+			try {
+			
+			
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			Conexion conn = new Conexion();
+			Connection con = (Connection) conn.getConexion();
+			
+			String sql = "SELECT id, usuarios, password, nombre, correo, last_session FROM usuarios "+ where;//busqueda de campos en general al guardar
+			
+			ps = (PreparedStatement) con.prepareStatement(sql);
+			rs = (ResultSet) ps.executeQuery();
+			
+			ResultSetMetaData rsMD = rs.getMetaData();
+			int cantidadColumnas = rsMD.getColumnCount();//para poder manejar el limite de datos que hay en la tabla de mysql
+	
+			while(rs.next()) {
+				
+				Object[] filas = new Object[cantidadColumnas];//agregamo objecto para validar la fila
+				
+				
+				for(int i=0; i<cantidadColumnas; i++ ) {
+					filas[i] = rs.getObject(i+1);//recorre toda la base de datos agregadolo en el campo de la tabla
+				}
+				model.addRow(filas);
+			}
+			
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+				Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+				JOptionPane.showMessageDialog(null, "error a conexion a la base de datos");
+			}
 			
 		}
+		
+		/* hacer el boton de cargar y poner esto en el boton de cargar*/
 		
 	}
 }

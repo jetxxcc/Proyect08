@@ -1,7 +1,8 @@
 package POO;
 
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
