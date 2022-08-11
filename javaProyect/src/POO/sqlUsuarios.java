@@ -83,27 +83,6 @@ public class sqlUsuarios extends Conexion {
 		
 	}
 
-	public  boolean registraDesdeAdmin(opPOO usr) {
-		PreparedStatement ps = null;
-		Connection con = (Connection) getConexion();
-		
-		String sql = "insert into usuarios(usuarios,password,nombre,correo,id_tipo) values(?,?,?,?,?)";
-	try {	
-		ps = (PreparedStatement) con.prepareStatement(sql);
-		ps.setString(1, usr.getUser());
-		ps.setString(2, usr.getContra());
-		ps.setString(3, usr.getNombre());
-		ps.setString(4, usr.getGmail());
-		ps.setInt(5, usr.getId_tipo());
-		ps.execute();
-		return true;
-				}catch(SQLException ex) {
-					Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
-						return false;
-				}
-	}
-	//nuevo, verificar si poner si o no
-	
 	
 	public boolean Login(opPOO usr) {
 		PreparedStatement ps = null;

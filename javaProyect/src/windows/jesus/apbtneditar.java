@@ -24,6 +24,7 @@ import com.mysql.jdbc.ResultSet;
 
 import POO.Conexion;
 import POO.sqlUsuarios;
+import hash.jesus.hash;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -38,10 +39,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class apbtneditar extends JFrame {
+public class apbtneditar extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private static JTable table;
@@ -50,8 +54,11 @@ public class apbtneditar extends JFrame {
 	private JTextField txt3;
 	private JTextField txt4;
 	private JTextField txt5;
+	JButton btnRegresar, btnLimpiar, btnBorrar, btnEditar, btnGuardar;
 	 JLabel lblNom2, lblRol2, ocultar, ver;
 	opPOO obj;
+	private JButton btnBuscar;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -102,7 +109,7 @@ public class apbtneditar extends JFrame {
 				Conexion conn = new Conexion();
 				Connection con = (Connection) conn.getConexion();
 				
-				String sql = "SELECT usuarios, password, nombre, correo, id_tipo FROM usuarios";//busqueda de campos en general al guardar
+				String sql = "SELECT id, usuarios, password, nombre, correo, id_tipo FROM usuarios";//busqueda de campos en general al guardar
 				
 				ps = (PreparedStatement) con.prepareStatement(sql);
 				rs = (ResultSet) ps.executeQuery();
@@ -143,7 +150,7 @@ public class apbtneditar extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setForeground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 807, 352);
+		setBounds(100, 100, 807, 381);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -175,32 +182,42 @@ public class apbtneditar extends JFrame {
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 19, 371, 231);
+		scrollPane.setBounds(10, 19, 371, 260);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				try {	
+				
+				Conexion conn = new Conexion();
+				Connection con = (Connection) conn.getConexion();
+				
 				int fila = table.getSelectedRow();
+				String id = table.getValueAt(fila, 0).toString();
+				String sql = "SELECT id, usuarios, password, nombre, correo, id_tipo FROM usuarios WHERE id=?";	
 				
-				if(fila == 1) {
-					JOptionPane.showMessageDialog(null, "no selecciono fila");
-				}else {
+			
+				ps = (PreparedStatement) con.prepareStatement(sql);
+				ps.setString(1, id);
+				rs = (ResultSet) ps.executeQuery();
 				
-				String eeuser= (String)table.getValueAt(fila, 0);		
-				String eecontra= (String)table.getValueAt(fila, 1);
-				String eenombre = (String)table.getValueAt(fila, 2);
-				String eecorreo = (String)table.getValueAt(fila, 3);
-				int idtipo = Integer.parseInt((String)table.getValueAt(fila, 4).toString());
-				
-				txt1.setText(eeuser);
-				txt2.setText(eecontra);
-				txt3.setText(eenombre);
-				txt4.setText(eecorreo);
-				txt5.setText(""+idtipo);
-				
+				while(rs.next()) {
+					txt1.setText(rs.getString("usuarios"));
+					txt2.setText(rs.getString("password"));
+					txt3.setText(rs.getString("nombre"));
+					txt4.setText(rs.getString("correo"));
+					txt5.setText(rs.getString("id_tipo"));
 				}
+				
+						}catch(SQLException ex) {
+							Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+								
+						}
+				
 		
 			}
 		});
@@ -208,20 +225,21 @@ public class apbtneditar extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Usuario", "Password", "Nombre", "Correo", "Rol"
+				"ID", "Usuario", "Password", "Nombre", "Correo", "Rol"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		table.getColumnModel().getColumn(1).setPreferredWidth(125);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		table.getColumnModel().getColumn(3).setPreferredWidth(122);
-		table.getColumnModel().getColumn(4).setPreferredWidth(33);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(2).setPreferredWidth(125);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(122);
+		table.getColumnModel().getColumn(5).setPreferredWidth(33);
 		table.setBackground(Color.LIGHT_GRAY);
 		scrollPane.setViewportView(table);
 		
@@ -232,7 +250,7 @@ public class apbtneditar extends JFrame {
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JButton btnGuardar = new JButton("<html>Guardar Cuenta</html>");
+		 btnGuardar = new JButton("<html>Guardar Cuenta</html>");
 		btnGuardar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\flecha-alt-circulo-derecha.png"));
 		btnGuardar.setBounds(10, 15, 105, 43);
 		panel_2.add(btnGuardar);
@@ -240,7 +258,7 @@ public class apbtneditar extends JFrame {
 		btnGuardar.setBackground(Color.DARK_GRAY);
 		btnGuardar.setForeground(Color.LIGHT_GRAY);
 		
-		JButton btnEditar = new JButton("<html>Editar Cuenta</html>");
+		 btnEditar = new JButton("<html>Editar Cuenta</html>");
 		btnEditar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\capas.png"));
 		btnEditar.setBounds(10, 69, 105, 43);
 		panel_2.add(btnEditar);
@@ -248,7 +266,7 @@ public class apbtneditar extends JFrame {
 		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnEditar.setBackground(Color.DARK_GRAY);
 		
-		JButton btnBorrar = new JButton("<html>Borrar Cuenta</html>");
+		 btnBorrar = new JButton("<html>Borrar Cuenta</html>");
 		btnBorrar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\eliminar-documento.png"));
 		btnBorrar.setBounds(10, 123, 105, 43);
 		panel_2.add(btnBorrar);
@@ -256,7 +274,7 @@ public class apbtneditar extends JFrame {
 		btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnBorrar.setBackground(Color.DARK_GRAY);
 		
-		JButton btnRegresar = new JButton("<html>Regresar a registro</html>");
+		 btnRegresar = new JButton("<html>Regresar a registro</html>");
 		btnRegresar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\deshacer.png"));
 		btnRegresar.setBounds(10, 177, 105, 43);
 		panel_2.add(btnRegresar);
@@ -349,14 +367,6 @@ public class apbtneditar extends JFrame {
 		lblNewLabel_4.setBounds(109, 122, 115, 41);
 		panel_3.add(lblNewLabel_4);
 		
-		JButton btnNewButton = new JButton("Limpiar");
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
-		btnNewButton.setBackground(Color.DARK_GRAY);
-		btnNewButton.setForeground(Color.LIGHT_GRAY);
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnNewButton.setBounds(531, 196, 105, 43);
-		panel_1.add(btnNewButton);
-		
 		JLabel lblNewLabel_3 = new JLabel("Seleccione cuenta.");
 		lblNewLabel_3.setBackground(Color.GRAY);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -366,7 +376,7 @@ public class apbtneditar extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.DARK_GRAY);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(391, 11, 2, 239);
+		separator.setBounds(391, 11, 2, 268);
 		panel_1.add(separator);
 		
 		JLabel lblNewLabel_5 = new JLabel("<html>'''Borrar cidrado del password para editar y ponerle uno nuevo'''</html>");
@@ -374,5 +384,232 @@ public class apbtneditar extends JFrame {
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		lblNewLabel_5.setBounds(412, 196, 109, 46);
 		panel_1.add(lblNewLabel_5);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(new LineBorder(new Color(128, 128, 128)), "Buscar/Limpiar", TitledBorder.LEADING, TitledBorder.TOP, null, Color.DARK_GRAY));
+		panel_4.setBackground(new Color(192, 192, 192));
+		panel_4.setBounds(527, 196, 109, 83);
+		panel_1.add(panel_4);
+		panel_4.setLayout(null);
+		
+		 btnLimpiar = new JButton("");
+		 btnLimpiar.setBounds(54, 40, 55, 43);
+		 panel_4.add(btnLimpiar);
+		 btnLimpiar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\escoba.png"));
+		 btnLimpiar.setBackground(Color.DARK_GRAY);
+		 btnLimpiar.setForeground(Color.LIGHT_GRAY);
+		 btnLimpiar.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		 
+		 btnBuscar = new JButton("");
+		 btnBuscar.setBackground(Color.DARK_GRAY);
+		 btnBuscar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\tiempo-pasado.png"));
+		 btnBuscar.setBounds(0, 40, 55, 43);
+		 panel_4.add(btnBuscar);
+		 
+		 textField = new JTextField();
+		 textField.setBounds(10, 21, 86, 20);
+		 panel_4.add(textField);
+		 textField.setColumns(10);
+		
+		btnLimpiar.addActionListener(this);
+		btnGuardar.addActionListener(this);
+		btnBorrar.addActionListener(this);
+		btnEditar.addActionListener(this);
+		btnRegresar.addActionListener(this);
+		
+		
+	}
+	
+	private void limpiarRegistro() {
+		txt1.setText("");
+		txt2.setText("");
+		txt3.setText("");
+		txt4.setText("");
+		txt5.setText("");
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btnLimpiar) {
+			limpiarRegistro();
+		}else if(e.getSource()==btnGuardar) {
+			String eeuser = txt1.getText();		
+			String eecontra = String.valueOf(txt2.getPassword());
+			String eenombre = txt3.getText();
+			String eeGmail = txt4.getText();
+			String tipoidString = txt5.getText();
+			int tipoidnew = Integer.parseInt(tipoidString);
+			
+			
+			if(eeGmail.equals("") || eecontra.equals("") || eeuser.equals("") || eenombre.equals("")) {
+				
+	 			JOptionPane.showMessageDialog(null, "hay celdas vacias, complete las celdas!");
+	 			
+			}else {
+				
+			if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 			
+	 		}else if(eeuser == null || eeuser.equals(eecontra) || eeuser.equals(eeGmail) || eeuser.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eenombre == null || eenombre.equals(eecontra) || eenombre.equals(eeuser) || eenombre.equals(eeGmail)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eecontra == null || eecontra.equals(eeGmail) || eecontra.equals(eeuser) || eecontra.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}
+			
+			opPOO obj = new opPOO();
+
+			//conexion a base de datos de registro
+			
+			sqlUsuarios modSql = new sqlUsuarios();
+				
+			
+				
+				if(modSql.verificarUsuarioExistente(eeuser)==0) {
+					
+					if(modSql.verificarGmailExistente(eeGmail)==0) {
+					
+						if(modSql.esEmail(eeGmail)) {
+						
+					
+					String newpass = hash.sha1(eecontra);
+					
+					
+								obj.setGmail(eeGmail);
+								obj.setNombre(eenombre);
+								obj.setUser(eeuser);
+								obj.setContra(newpass);
+								obj.setId_tipo(tipoidnew);
+					
+																			if(modSql.registrar(obj)) {
+																				JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente!");
+																				limpiarRegistro();
+																			
+																			}else {
+																//por si da error la conexion de la base de dato u otra cosa, esto no indentifica para eso
+																				JOptionPane.showMessageDialog(null, "No se puedo guardar, hubo un error.");
+																			}
+																	}else {
+																		
+																		JOptionPane.showMessageDialog(null, "Error en el gmail");
+																	}//cierre del if verificacion de gmail esta bien puesto @gmail o @hotmail
+													}else {
+														
+														JOptionPane.showMessageDialog(null, "Esta siendo usado este gmail");
+													}
+										}else{
+											
+											JOptionPane.showMessageDialog(null, "Esta siendo usado este usuario");
+										}//cierre del if verificacion de user
+				
+				
+				
+						}
+		
+			
+			
+		}else if(e.getSource()==btnBorrar) {
+			PreparedStatement ps = null;
+			try {	
+			
+			Conexion conn = new Conexion();
+			Connection con = (Connection) conn.getConexion();
+			
+			int fila = table.getSelectedRow();
+			String id = table.getValueAt(fila, 0).toString();
+			String sql = "DELETE FROM usuarios WHERE id = ?";	
+			
+		
+			ps = (PreparedStatement) con.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.execute();
+			
+					}catch(SQLException ex) {
+						Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+							
+					}
+		}else if(e.getSource()==btnEditar) {
+			String eeuser = txt1.getText();		
+			String eecontra = String.valueOf(txt2.getPassword());
+			String eenombre = txt3.getText();
+			String eeGmail = txt4.getText();
+			String tipoidString = txt5.getText();
+			int tipoidnew = Integer.parseInt(tipoidString);
+			int fila = table.getSelectedRow();
+			
+			if(eeGmail.equals("") || eecontra.equals("") || eeuser.equals("") || eenombre.equals("")) {
+				
+	 			JOptionPane.showMessageDialog(null, "hay celdas vacias, complete las celdas!");
+	 			
+			}else {
+				
+			if(eeGmail == null || eeGmail.equals(eecontra) || eeGmail.equals(eeuser) || eeGmail.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 			
+	 		}else if(eeuser == null || eeuser.equals(eecontra) || eeuser.equals(eeGmail) || eeuser.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eenombre == null || eenombre.equals(eecontra) || eenombre.equals(eeuser) || eenombre.equals(eeGmail)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}else if(eecontra == null || eecontra.equals(eeGmail) || eecontra.equals(eeuser) || eecontra.equals(eenombre)) {
+	 			JOptionPane.showMessageDialog(null, "incorrecto");
+	 		}
+			
+			
+
+			//conexion a base de datos de registro
+			
+			sqlUsuarios modSql = new sqlUsuarios();
+
+						if(modSql.esEmail(eeGmail)) {
+						
+					
+					String newpass = hash.sha1(eecontra);
+					
+					PreparedStatement ps = null;
+					try {	
+					
+					Conexion conn = new Conexion();
+					Connection con = (Connection) conn.getConexion();
+					
+					String sql = "UPDATE usuarios SET usuarios=?,password=?,nombre=?,correo=?,id_tipo=? WHERE id=?";
+					
+						ps = (PreparedStatement) con.prepareStatement(sql);
+						ps.setString(1, eeuser);
+						ps.setString(2, newpass);
+						ps.setString(3, eenombre);
+						ps.setString(4, eeGmail);
+						ps.setInt(5, tipoidnew);//arreglar la parte de actualizar, esta bien, pero no se guarda la actualizacion
+						ps.execute();
+					
+								}catch(SQLException ex) {
+									Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+										
+								}
+					
+																			
+												JOptionPane.showMessageDialog(null, "Se agrego actualizo correctamente!");
+												table.setValueAt(eeuser, fila, 1);
+												table.setValueAt(newpass, fila, 2);
+												table.setValueAt(eenombre, fila,3);
+												table.setValueAt(eeGmail, fila, 4);
+												table.setValueAt(tipoidnew, fila, 5);
+												limpiarRegistro();
+																			
+																			
+																	}else {
+																		
+																		JOptionPane.showMessageDialog(null, "Error en el gmail");
+																	}//cierre del if verificacion de gmail esta bien puesto @gmail o @hotmail
+													
+				
+				
+				
+						}
+		}else if(e.getSource()==btnRegresar) {
+			
+		}
+		
 	}
 }

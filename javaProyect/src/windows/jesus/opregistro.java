@@ -239,11 +239,7 @@ public class opregistro extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 	if(e.getSource()==btnLimpiar) {
-		txt1.setText("");
-		txt2.setText("");
-		txt3.setText("");
-		txt4.setText("");
-		txt5.setText("");
+		limpiarRegistro();
 		}else if(e.getSource()==btnRegistro) {
 			String eeGmail = txt1.getText();		
 			String eeuser = txt2.getText();
