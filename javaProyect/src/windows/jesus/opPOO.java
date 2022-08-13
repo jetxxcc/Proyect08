@@ -2,7 +2,10 @@ package windows.jesus;
 
 import java.util.Vector;
 
-public  class opPOO {
+import POO.opPOOABS;
+import POO.opPOOINTERFACE;
+
+public  class opPOO extends opPOOABS implements opPOOINTERFACE {
 	private int id, id_tipo;
 	 private String gmail, nombre, user, contra, last_session, nombre_tipo;
 	
