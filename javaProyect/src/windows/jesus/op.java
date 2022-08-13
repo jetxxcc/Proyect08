@@ -121,6 +121,7 @@ public class op extends JFrame implements ActionListener{
 		panel_1.setLayout(null);
 		
 		txt2 = new JPasswordField();
+		txt2.setEchoChar('*');
 		txt2.setBounds(87, 55, 107, 23);
 		panel_1.add(txt2);
 		

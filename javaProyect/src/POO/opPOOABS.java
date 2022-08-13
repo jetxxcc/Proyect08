@@ -1,7 +1,8 @@
 package POO;
 
 public abstract class opPOOABS {
-	 //averiguar como hacer el polimorfo con opPOO para ponerle super
+	protected int id, id_tipo;
+	 protected String gmail, nombre, user, contra, last_session, nombre_tipo;
 	public abstract void setUser(String user);
  	public abstract void setContra(String contra);
  	public abstract void setGmail(String gmail);

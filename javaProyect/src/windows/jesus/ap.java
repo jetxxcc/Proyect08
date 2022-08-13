@@ -276,11 +276,11 @@ public class ap extends JFrame implements ActionListener{
 			
 		}else if(e.getSource()==btnEditar) {
 		
-			if(abrirEditar==null) {
+			
 				abrirEditar = new apbtneditar(obj);
 				abrirEditar.setVisible(true);
 				this.dispose();
-			}
+			
 		}else if(e.getSource()==btnVolver) {
 			op abrir = new op();
 			abrir.setVisible(true);
@@ -357,11 +357,14 @@ public class ap extends JFrame implements ActionListener{
 	
 			while(rs.next()) {
 				
-				Object[] filas = new Object[cantidadColumnas];//agregamo objecto para validar la fila
+				Object[] filas = new Object[cantidadColumnas];//agregamos objecto para validar la fila
+				
 				
 				
 				for(int i=0; i<cantidadColumnas; i++ ) {
+					
 					filas[i] = rs.getObject(i+1);//recorre toda la base de datos agregadolo en el campo de la tabla
+					
 				}
 				model.addRow(filas);
 			}

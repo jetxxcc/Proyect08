@@ -591,6 +591,9 @@ public class apbtneditar extends JFrame implements ActionListener {
 				ps = (PreparedStatement) con.prepareStatement(sql);
 				ps.setString(1, id);
 				ps.execute();
+				DefaultTableModel model=(DefaultTableModel)table.getModel();
+				table.setModel(model);
+				model.removeRow(fila);
 				limpiarRegistro();
 				
 						}catch(SQLException ex) {
