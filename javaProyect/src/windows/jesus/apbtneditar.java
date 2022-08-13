@@ -58,8 +58,11 @@ public class apbtneditar extends JFrame implements ActionListener {
 	 JLabel lblNom2, lblRol2, ocultar, ver;
 	opPOO obj;
 	private JButton btnBuscar;
-	private JTextField textField;
-
+	private JTextField txtIndice;
+	private JTextField txtID;
+	
+	public static ap abrirRegistro;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -206,6 +209,7 @@ public class apbtneditar extends JFrame implements ActionListener {
 				rs = (ResultSet) ps.executeQuery();
 				
 				while(rs.next()) {
+					txtID.setText(rs.getString("id"));
 					txt1.setText(rs.getString("usuarios"));
 					txt2.setText(rs.getString("password"));
 					txt3.setText(rs.getString("nombre"));
@@ -406,16 +410,25 @@ public class apbtneditar extends JFrame implements ActionListener {
 		 btnBuscar.setBounds(0, 40, 55, 43);
 		 panel_4.add(btnBuscar);
 		 
-		 textField = new JTextField();
-		 textField.setBounds(10, 21, 86, 20);
-		 panel_4.add(textField);
-		 textField.setColumns(10);
+		 txtIndice = new JTextField();
+		 txtIndice.setBounds(0, 21, 109, 20);
+		 panel_4.add(txtIndice);
+		 txtIndice.setColumns(10);
+		 
+		 txtID = new JTextField();
+		 txtID.setEnabled(false);
+		 txtID.setBounds(422, 253, 86, 20);
+		 txtID.setVisible(false);
+		 panel_1.add(txtID);
+		 txtID.setColumns(10);
+		 
 		
 		btnLimpiar.addActionListener(this);
 		btnGuardar.addActionListener(this);
 		btnBorrar.addActionListener(this);
 		btnEditar.addActionListener(this);
 		btnRegresar.addActionListener(this);
+		btnBuscar.addActionListener(this);
 		
 		
 	}
@@ -433,6 +446,54 @@ public class apbtneditar extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnLimpiar) {
 			limpiarRegistro();
+		}else if(e.getSource()==btnBuscar){
+			String campo = txtIndice.getText();
+			String where = "";//opcion para cuando usemos el indice
+			
+			DefaultTableModel model=(DefaultTableModel)table.getModel();
+			table.setModel(model);
+			
+			if(!"".equals(campo)) {//aqui se valida el indice, dependiendo
+				
+				int Recorrefila = model.getRowCount();
+				for(int i=0; i<Recorrefila; i++) {
+					model.removeRow(0);//se limpia y se aguega un query where para buscar el campo
+				}
+				
+				where = "WHERE nombre = '"+ campo +"'";
+			}
+			
+			try {
+				
+				
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				Conexion conn = new Conexion();
+				Connection con = (Connection) conn.getConexion();
+				
+				String sql = "SELECT id, usuarios, password, nombre, correo, id_tipo FROM usuarios "+ where;//busqueda de campos en general al guardar
+				
+				ps = (PreparedStatement) con.prepareStatement(sql);
+				rs = (ResultSet) ps.executeQuery();
+				
+				ResultSetMetaData rsMD = rs.getMetaData();
+				int cantidadColumnas = rsMD.getColumnCount();//para poder manejar el limite de datos que hay en la tabla de mysql
+		
+				while(rs.next()) {
+					
+					Object[] filas = new Object[cantidadColumnas];//agregamo objecto para validar la fila
+					
+					
+					for(int i=0; i<cantidadColumnas; i++ ) {
+						filas[i] = rs.getObject(i+1);//recorre toda la base de datos agregadolo en el campo de la tabla
+					}
+					model.addRow(filas);
+				}
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+				Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+				JOptionPane.showMessageDialog(null, "error a conexion a la base de datos");
+			}
 		}else if(e.getSource()==btnGuardar) {
 			String eeuser = txt1.getText();		
 			String eecontra = String.valueOf(txt2.getPassword());
@@ -440,6 +501,7 @@ public class apbtneditar extends JFrame implements ActionListener {
 			String eeGmail = txt4.getText();
 			String tipoidString = txt5.getText();
 			int tipoidnew = Integer.parseInt(tipoidString);
+			int IDD = Integer.parseInt(txtID.getText());
 			
 			
 			if(eeGmail.equals("") || eecontra.equals("") || eeuser.equals("") || eenombre.equals("")) {
@@ -476,14 +538,14 @@ public class apbtneditar extends JFrame implements ActionListener {
 					
 					String newpass = hash.sha1(eecontra);
 					
-					
+								obj.setId(IDD);
 								obj.setGmail(eeGmail);
 								obj.setNombre(eenombre);
 								obj.setUser(eeuser);
 								obj.setContra(newpass);
 								obj.setId_tipo(tipoidnew);
 					
-																			if(modSql.registrar(obj)) {
+																			if(modSql.registrarModi(obj)) {
 																				JOptionPane.showMessageDialog(null, "Se agrego usuario correctamente!");
 																				limpiarRegistro();
 																			
@@ -511,32 +573,43 @@ public class apbtneditar extends JFrame implements ActionListener {
 			
 			
 		}else if(e.getSource()==btnBorrar) {
-			PreparedStatement ps = null;
-			try {	
+			int resp = JOptionPane.showConfirmDialog(null, "¿seguro que quieres borrar este registro?");
+		    if (JOptionPane.OK_OPTION == resp){
+		    	JOptionPane.showMessageDialog(null, "Registro borrado correctamente");
+		    	
+		    	PreparedStatement ps = null;
+				try {	
+				
+				Conexion conn = new Conexion();
+				Connection con = (Connection) conn.getConexion();
+				
+				int fila = table.getSelectedRow();
+				String id = table.getValueAt(fila, 0).toString();
+				String sql = "DELETE FROM usuarios WHERE id = ?";	
+				
 			
-			Conexion conn = new Conexion();
-			Connection con = (Connection) conn.getConexion();
-			
-			int fila = table.getSelectedRow();
-			String id = table.getValueAt(fila, 0).toString();
-			String sql = "DELETE FROM usuarios WHERE id = ?";	
+				ps = (PreparedStatement) con.prepareStatement(sql);
+				ps.setString(1, id);
+				ps.execute();
+				limpiarRegistro();
+				
+						}catch(SQLException ex) {
+							Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+								
+						}
+		    	 }
+		    	      else{
+		    	    JOptionPane.showMessageDialog(null, "No a podido borrar registro");
+		    	   }
 			
 		
-			ps = (PreparedStatement) con.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.execute();
-			
-					}catch(SQLException ex) {
-						Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
-							
-					}
 		}else if(e.getSource()==btnEditar) {
 			String eeuser = txt1.getText();		
 			String eecontra = String.valueOf(txt2.getPassword());
 			String eenombre = txt3.getText();
 			String eeGmail = txt4.getText();
-			String tipoidString = txt5.getText();
-			int tipoidnew = Integer.parseInt(tipoidString);
+			int tipoidnew = Integer.parseInt(txt5.getText());
+			int IDD = Integer.parseInt(txtID.getText());
 			int fila = table.getSelectedRow();
 			
 			if(eeGmail.equals("") || eecontra.equals("") || eeuser.equals("") || eenombre.equals("")) {
@@ -581,7 +654,17 @@ public class apbtneditar extends JFrame implements ActionListener {
 						ps.setString(3, eenombre);
 						ps.setString(4, eeGmail);
 						ps.setInt(5, tipoidnew);//arreglar la parte de actualizar, esta bien, pero no se guarda la actualizacion
-						ps.execute();
+						ps.setInt(6, IDD);
+						//ps.setString(6, );
+						ps.executeUpdate();
+						
+						JOptionPane.showMessageDialog(null, "Se agrego actualizo correctamente!");
+						table.setValueAt(eeuser, fila, 1);
+						table.setValueAt(newpass, fila, 2);
+						table.setValueAt(eenombre, fila,3);
+						table.setValueAt(eeGmail, fila, 4);
+						table.setValueAt(tipoidnew, fila, 5);
+						limpiarRegistro();
 					
 								}catch(SQLException ex) {
 									Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
@@ -589,13 +672,7 @@ public class apbtneditar extends JFrame implements ActionListener {
 								}
 					
 																			
-												JOptionPane.showMessageDialog(null, "Se agrego actualizo correctamente!");
-												table.setValueAt(eeuser, fila, 1);
-												table.setValueAt(newpass, fila, 2);
-												table.setValueAt(eenombre, fila,3);
-												table.setValueAt(eeGmail, fila, 4);
-												table.setValueAt(tipoidnew, fila, 5);
-												limpiarRegistro();
+												
 																			
 																			
 																	}else {
@@ -608,7 +685,9 @@ public class apbtneditar extends JFrame implements ActionListener {
 				
 						}
 		}else if(e.getSource()==btnRegresar) {
-			
+			abrirRegistro = new ap(obj);
+			abrirRegistro.setVisible(true);
+			this.dispose();
 		}
 		
 	}

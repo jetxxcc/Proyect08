@@ -248,6 +248,9 @@ public class ap extends JFrame implements ActionListener{
 		 btnCargar.setIcon(new ImageIcon("C:\\Users\\jesus\\Desktop\\cuatrimestre 3\\program 1\\img proyecto fina\\tiempo-pasado.png"));
 		 btnCargar.setBackground(Color.DARK_GRAY);
 		 btnCargar.setForeground(Color.LIGHT_GRAY);
+		 
+		 
+		 
 		 btnCargar.addActionListener(this);
 		
 		btnLimpiar.addActionListener(this);
@@ -276,6 +279,7 @@ public class ap extends JFrame implements ActionListener{
 			if(abrirEditar==null) {
 				abrirEditar = new apbtneditar(obj);
 				abrirEditar.setVisible(true);
+				this.dispose();
 			}
 		}else if(e.getSource()==btnVolver) {
 			op abrir = new op();
@@ -283,10 +287,40 @@ public class ap extends JFrame implements ActionListener{
 			this.dispose();
 			
 		}else if(e.getSource()==btnEliminar) {
-			DefaultTableModel model=(DefaultTableModel)table.getModel();
-			table.setModel(model);
-			int fila=table.getSelectedRow();
-			model.removeRow(fila);
+			
+			
+			int resp = JOptionPane.showConfirmDialog(null, "¿seguro que quieres borrar este registro?");
+		    if (JOptionPane.OK_OPTION == resp){
+		    	JOptionPane.showMessageDialog(null, "Registro borrado correctamente");
+		    	
+		    	PreparedStatement ps = null;
+				try {	
+				
+				Conexion conn = new Conexion();
+				Connection con = (Connection) conn.getConexion();
+				
+				int fila = table.getSelectedRow();
+				String id = table.getValueAt(fila, 0).toString();
+				String sql = "DELETE FROM usuarios WHERE id = ?";	
+				
+			
+				ps = (PreparedStatement) con.prepareStatement(sql);
+				ps.setString(1, id);
+				ps.execute();
+				
+				DefaultTableModel model=(DefaultTableModel)table.getModel();
+				table.setModel(model);
+				model.removeRow(fila);
+				
+						}catch(SQLException ex) {
+							Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+								
+						}
+		    	 }
+		    	      else{
+		    	    JOptionPane.showMessageDialog(null, "No a podido borrar registro");
+		    	   }
+			
 		}else if(e.getSource()==btnCargar) {
 			
 			String campo = txtNom.getText();

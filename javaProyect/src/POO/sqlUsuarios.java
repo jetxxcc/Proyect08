@@ -126,6 +126,27 @@ public class sqlUsuarios extends Conexion {
 		
 	}
 
+	public boolean registrarModi(opPOO usr) {
+		PreparedStatement ps = null;
+		Connection con = (Connection) getConexion();
+		
+		String sql = "insert into usuarios(id,usuarios,password,nombre,correo,id_tipo) values(?,?,?,?,?,?)";
+	try {	
+		ps = (PreparedStatement) con.prepareStatement(sql);
+		ps.setLong(1, usr.getId());
+		ps.setString(2, usr.getUser());
+		ps.setString(3, usr.getContra());
+		ps.setString(4, usr.getNombre());
+		ps.setString(5, usr.getGmail());
+		ps.setInt(6, usr.getId_tipo());
+		ps.execute();
+		return true;
+				}catch(SQLException ex) {
+					Logger.getLogger(sqlUsuarios.class.getName()).log(Level.SEVERE,null, ex);
+						return false;
+				}
+		
+	}
 	
  	public boolean esEmail(String correo) {
 
